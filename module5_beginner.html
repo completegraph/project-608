@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Module 5:  Javascript Beginner Exercise</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+      width: 50%;
+       max-width: 800px;
+       min-width: 480px;
+       margin: 0 auto;
+      }
+
+      table, th, td {
+          border: 1px solid black;
+      }
+
+    </style>
+  </head>
+
+  <body>
+  <h1>Module 5: Beginner Exercises for DATA 608</h1>
+  By Alexander Ng
+
+    <h2>String Reversal</h2>
+
+    <p>Enter a string below and we'll reverse it.</p>
+
+    <div class="form">
+      <label for="stringEntry">Enter your string here: </label>
+      <input type="text" id="stringEntry" class="stringEntry">
+      <input type="submit" value="Submit string" class="submitString">
+    </div>
+
+    <div class="resultParas">
+      <label for="originalInput">Original Input is:</label>
+      <p class="originalInput"></p>
+      <label for="reversedOutput">Reversed string is:</label>
+      <p class="reversedOutput"></p>
+    </div>
+
+    <script>
+
+      // Your JavaScript goes here
+
+const stringEntry = document.querySelector('.stringEntry');
+const reversedOutput = document.querySelector('.reversedOutput')
+const submitString = document.querySelector('.submitString');
+const originalInput = document.querySelector('.originalInput');
+
+stringEntry.focus();
+
+function flipTheInput() {
+
+  let inputString = String(stringEntry.value);
+
+  let reversedString = inputString.split("").reverse().join("");
+
+  originalInput.textContent  = inputString;
+  reversedOutput.textContent = reversedString;
+
+  /* Reset the input form to allow new input */
+  stringEntry.value = '';
+  stringEntry.focus();
+}
+
+submitString.addEventListener('click', flipTheInput);
+
+</script>
+
+
+
+<h2>Making a table of 20 multiples of a number</h2>
+
+<p>Enter a number and we'll make the first 20 multiples of the number.</p>
+
+
+<div class="formNum">
+  <label for="numberEntry">Enter your number here: </label>
+  <input type="text" id="numberEntry" class="numberEntry">
+  <input type="submit" value="Submit number" class="submitNumber">
+</div>
+
+
+
+<div class="resultNumbers">
+  <label for="originalNumber">Original Number is:</label>
+  <p class="originalNumber"></p>
+  <label for="table20">Table is below:</label>
+  <p class="table20"></p>
+</div>
+
+
+<script>
+
+const numberEntry = document.querySelector('.numberEntry');
+const table20 = document.querySelector('.table20');
+const originalNumber = document.querySelector('.originalNumber');
+const submitNumber = document.querySelector('.submitNumber');
+
+let generatedTable20;
+
+
+function makeTable(rows, cols, originalNumber){
+
+  let newTable = document.createElement('table');
+
+  for(let i = 0; i < rows; i++){
+
+      let row = document.createElement('tr');  // Table row
+
+      for(let j = 0; j < cols; j++ ){
+
+        row.appendChild(document.createElement('td') );
+        row.cells[j].innerHTML = (cols * i + (j + 1)) * originalNumber;
+
+      }
+      newTable.appendChild(row);
+  }
+  return newTable;
+}
+
+function handleNumber(){
+
+    if(!isNaN(numberEntry.value)){
+
+        if(generatedTable20 != null){
+          generatedTable20.parentNode.removeChild(generatedTable20);
+        }
+
+        generatedTable20 = makeTable(5, 4, Number( numberEntry.value ) );
+
+        table20.appendChild(generatedTable20);
+
+        originalNumber.textContent = numberEntry.value;
+
+    }
+    numberEntry.value = '';
+    numberEntry.focus();
+}
+
+submitNumber.addEventListener('click', handleNumber);
+
+
+</script>
+
+
+  </body>
+</html>
+

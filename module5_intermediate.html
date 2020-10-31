@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Module 5:  Javascript Intermediate Exercise</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+      width: 50%;
+       max-width: 800px;
+       min-width: 480px;
+       margin: 0 auto;
+      }
+
+      table, th, td {
+          border: 1px solid black;
+      }
+
+    </style>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.4/d3.min.js"></script>
+  
+ 
+</head>
+
+  <body>
+  <h1>Module 5: Intermediate Exercises for DATA 608</h1>
+  By Alexander Ng
+
+<h2>Search for A President's Height and Weight</h2>
+
+Search by name for a President's Height and Weight.
+
+<div class="form">
+  <label for="stringEntry">Enter your President name here: </label>
+  <input type="text" id="stringEntry" class="stringEntry">
+  <input type="submit" value="Submit string" class="submitString">
+</div>
+
+
+<div class="resultParas">
+  <label for="Height">Height:</label>
+  <p class="Height"></p>
+  <label for="Weight">Weight:</label>
+  <p class="Weight"></p>
+</div>
+
+<h2>Reference Table of All Presidents</h2>
+
+Based on the presidents.csv data source:
+
+<p class="presidentsTable"></p>
+
+
+
+<script>
+
+const stringEntry = document.querySelector('.stringEntry');
+const submitString = document.querySelector('.submitString');
+const resHeight = document.querySelector('.Height');
+const resWeight = document.querySelector('.Weight');
+
+stringEntry.value = '';
+
+document.write(" Generated on " + new Date().toLocaleTimeString());
+document.write(" Code version 4");
+
+const p1 = document.querySelector('.presidentsTable');
+
+function makeTable(data, tableID){
+
+  let columns = [ "Name", "Height", "Weight"];
+  let newTable = document.createElement('table');
+  newTable.setAttribute("class", tableID)
+  headerRow = document.createElement('tr');
+
+  for(i = 0; i < 3; i++ )
+  {
+    headerRow.appendChild(document.createElement('td'));
+    headerRow.cells[i].innerHTML  = columns[i];
+  }
+  newTable.appendChild(headerRow);
+
+  for(let i = 0; i < data.length; i++){
+
+    let row = document.createElement('tr');  // Table row
+
+    elts = [ data[i].Name, data[i].Height,  data[i].Weight];
+
+    for(j = 0; j < 3; j++){
+
+      row.appendChild(document.createElement('td') );
+      row.cells[j].innerHTML = elts[j];
+    }
+    newTable.appendChild(row);
+  }
+  return newTable;
+}
+
+d3.csv("presidents.csv", function(data){
+    p1.appendChild( makeTable(data, "presidentData") );
+    console.log("loaded data file.  Wrote to the HTML table.");
+});
+
+
+var pDataTable = document.querySelector(".presidentData");
+
+function handlePresidentRequest(){
+
+
+  var pDataTable = document.querySelector(".presidentData");
+
+  if(pDataTable === null){
+      alert("Data Table is null.  Cannot generate list");
+  }
+  else
+  {
+      console.log("pDataTable is not null.");
+
+      for(let i = 1; i < pDataTable.rows.length; i++){
+              
+          let name = pDataTable.rows.item(i).cells.item(0).innerHTML;
+          console.log("row " + i + " name:" + name + "<<" + "length: " + name.length);
+
+          if( name === stringEntry.value)
+          {
+              resHeight.textContent = pDataTable.rows.item(i).cells.item(1).innerHTML + " inches.";
+              resWeight.textContent = pDataTable.rows.item(i).cells.item(2).innerHTML + " pounds.";
+              resWeight.style.backgroundColor = "Linen";
+              resHeight.style.backgroundColor = "LightSkyBlue"
+              return;
+          }
+      }
+      alert("No match found for President name: " + stringEntry.value);
+  }
+}
+
+
+submitString.addEventListener('click', handlePresidentRequest);
+
+</script>
+
+
+  </body>
+</html>
+
